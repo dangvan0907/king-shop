@@ -21,6 +21,7 @@ Auth::routes();
 
 Route::prefix('users')->name('users.')->group(function () {
     Route::get('/', [\App\Http\Controllers\UserController::class, 'index'])->name('index');
+    Route::get('/{user}/show', [\App\Http\Controllers\UserController::class, 'show'])->name('show');
 
     Route::get('/{user}/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('edit');
     Route::put('/{user}/update', [\App\Http\Controllers\UserController::class, 'update'])->name('update');
