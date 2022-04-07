@@ -33,7 +33,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $this->user->update($request->all());
+        $this->user->create($request->all());
         return redirect(route('users.index'));
     }
 
