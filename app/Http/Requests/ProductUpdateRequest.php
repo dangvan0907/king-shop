@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class ProductUpdateRequest extends FormRequest
 {
@@ -16,6 +19,14 @@ class ProductUpdateRequest extends FormRequest
         return true;
     }
 
+    public function failedValidation(Validator $validator)
+    {
+        $response = new Response([
+            'errors'=>$validator->errors()
+        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        throw (new ValidationException($validator,$response));
+    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,10 +35,11 @@ class ProductUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|max:30|min:5',
-            'price'=>'required|number',
-            'image'=>'nullable|max:10000',
-            'description'=>'required|min:10'
+            'name'=>'required',
+            'price'=>'required|numeric',
+            'image'=>'bail|nullable|max:2000|image|mimes:jpeg,png,jpg,gif,svg',
+            'description'=>'required',
+//            'category_ids'=>'required'
         ];
     }
 }

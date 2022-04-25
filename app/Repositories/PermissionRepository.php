@@ -15,4 +15,9 @@ class PermissionRepository extends BaseRepository
     {
         return $this->model->all();
     }
+
+    public function search($name)
+    {
+        return $this->model->withName($name)->latest('id')->paginate(20);
+    }
 }

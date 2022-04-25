@@ -2,26 +2,19 @@
 
 namespace App\Services;
 
+use App\Repositories\PermissionRepository;
 
-
-use App\Repositories\RoleRepository;
-
-class RoleService
+class PermissionService
 {
-    protected $roleRepository;
+    protected $permissionRepository;
 
-    public function __construct(RoleRepository $roleRepository)
+    public function __construct(PermissionRepository $permissionRepository)
     {
-        $this->roleRepository = $roleRepository;
+        $this->permissionRepository = $permissionRepository;
     }
-    public function search($request)
+
+    public function permissionWithName($name)
     {
-        $dataSearch = $request->all();
-        $dataSearch['role_ids'] = $request->name ?? '';
-        return $this->roleRepository->search($dataSearch)->appends($request->all());
-    }
-    public function getAllRole(){
-        return $this->roleRepository->all();
+        return $this->permissionRepository->search($name ?? '');
     }
 }
-

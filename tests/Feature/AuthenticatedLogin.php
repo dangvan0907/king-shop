@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class AuthenticatchLogin extends TestCase
+class AuthenticatedLogin extends TestCase
 {
     /** @test */
     public function user_can_view_form_login()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryCreateRequest extends FormRequest
@@ -21,10 +22,12 @@ class CategoryCreateRequest extends FormRequest
      *
      * @return array
      */
+
+
     public function rules()
     {
         return [
-            //
+            'name'=>'required',
         ];
     }
 }

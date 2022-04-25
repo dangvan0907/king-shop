@@ -22,8 +22,6 @@ class Permission extends Model
     }
     public function scopeWithName($query, $name)
     {
-        dd($query->where('name', 'LIKE', "%{$name}%"));
         return $name ? $query->where('name', 'LIKE', "%{$name}%") : null;
     }
-
 }
