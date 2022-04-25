@@ -65,11 +65,6 @@ class CategoryController extends Controller
         return redirect(route('categories.index'))->with('message', 'Delete success!');
     }
 
-
-    /**
-     * @param $id
-     * @return mixed
-     */
     public function getById($id)
     {
         $category = $this->categoryService->findById($id);
