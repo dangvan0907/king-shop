@@ -1,4 +1,5 @@
-<div class="modal bd-example-modal-lg fade" id="createProductModal" tabindex="-1" role="dialog" aria-labelledby="createProductModalTitle"
+<div class="modal bd-example-modal-lg fade" id="createProductModal" tabindex="-1" role="dialog"
+     aria-labelledby="createProductModalTitle"
      aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -22,7 +23,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="category_ids">Categories</label>
-                                        <select style="width: 100%;" name="category_ids[]" data-action="{{route('categories.children')}}"
+                                        <select style="width: 100%;" name="category_ids[]"
+                                                data-action="{{route('categories.children')}}"
                                                 multiple="multiple"
                                                 class="form-control select2 categories category_ids">
                                             @foreach($categoryChildren as $item)
@@ -38,7 +40,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="imageCreate"> Image :</label>
-                                        <input type="file" class="form-control image" name="image" placeholder="image Name"
+                                        <input type="file" class="form-control image" name="image"
+                                               placeholder="image Name"
                                                id="imageCreate">
                                         <span class="text-danger image_error_create"></span>
                                     </div>
@@ -46,7 +49,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Description :</label>
-                                        <textarea id="description" type="text" class="form-control description" name="description"
+                                        <textarea id="description" type="text" class="form-control description"
+                                                  name="description"
                                                   value="{{ old('description ') }}">
                                         </textarea>
                                         <span class="text-danger description_error_create"></span>
