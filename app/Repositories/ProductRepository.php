@@ -19,6 +19,6 @@ class ProductRepository extends BaseRepository
         $minPrice = $dataSearch['min_price'];
         $maxPrice = $dataSearch['max_price'];
         return $this->model->withCategoryIds($categoryId)->withName($name)
-            ->withMinPrice($minPrice)->withMaxPrice($maxPrice)->latest('id')->paginate(3);
+            ->withMinPrice($minPrice)->withMaxPrice($maxPrice)->latest('id')->paginate(5);
     }
 }

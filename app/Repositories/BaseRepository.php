@@ -2,16 +2,17 @@
 
 namespace App\Repositories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseRepository
 {
     public $model;
-
+    abstract public function model();
     public function __construct()
     {
-        $this->makeModel();
+        $this->model = app($this->model());
     }
 
     /**
@@ -23,13 +24,17 @@ abstract class BaseRepository
         return $this->model->all();
     }
 
+    public function count()
+    {
+        return $this->model->count();
+    }
     /**
      * Retrieve all data of repository, paginated
      * @param null $limit
      * @param array $columns
      * @return
      */
-    public function paginate($limit = null, $columns = ['*'])
+    public function paginate($limit = 5, $columns = ['*'])
     {
         $limit = is_null($limit) ? config('repository.pagination.limit', 10) : $limit;
 
@@ -107,13 +112,6 @@ abstract class BaseRepository
     public function latest($id)
     {
         return $this->model->latest('id');
-    }
-
-    abstract public function model();
-
-    public function makeModel()
-    {
-        $this->model = app()->make($this->model());
     }
 
     public function updateOrCreate(array $arrayFind, $arrayCreate = ['*'])

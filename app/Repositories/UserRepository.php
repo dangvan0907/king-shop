@@ -4,17 +4,18 @@ namespace App\Repositories;
 
 use App\Models\User;
 
-class MyUserRepository
+class UserRepository extends BaseRepository
 {
     public function model()
     {
         return User::class;
     }
 
-//    public function search($dataSearch)
-//    {
-//        $roleId = $dataSearch['role_id'];
-//        $email = $dataSearch['email'];
-//        return $this->model->withEmail($email)->withRoleId($roleId)->latest('id')->paginate(5);
-//    }
+    public function search($dataSearch)
+    {
+        $roleId = $dataSearch['role_idSearch'];
+        $email = $dataSearch['emailSearch'];
+        $name = $dataSearch['nameSearch'];
+        return $this->model->withEmail($email)->withRoleId($roleId)->withName($name)->latest("id")->paginate(5);
+    }
 }

@@ -14,8 +14,8 @@ class RoleRepository extends BaseRepository
 
     public function search($dataSearch)
     {
-        $name = $dataSearch['name'];
-        return $this->model->withName($name)->latest('id')->paginate(5);
+        $display_name = $dataSearch['display_name'];
+        return $this->model->withName($display_name)->latest('id')->paginate(5);
     }
 
     public function getRoleWithOutSuperAdmin()
@@ -23,4 +23,3 @@ class RoleRepository extends BaseRepository
         return $this->model->getRoleWithOutSuperAdmin()->get();
     }
 }
-

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CheckEmailRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserCreateRequest extends FormRequest
@@ -16,6 +17,7 @@ class UserCreateRequest extends FormRequest
         return true;
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,9 +26,9 @@ class UserCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|max:20|min:5',
-            'email'=>'required|max:30|min:12',
-            'password'=>'required|max:20|min:8',
+            'name'=>'required',
+            'email'=>['required','unique:users','email',new CheckEmailRule()],
+            'password'=>'required',
         ];
     }
 }

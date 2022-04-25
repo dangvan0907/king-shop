@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\View\Compose\UserComposer;
 use Illuminate\Support\ServiceProvider;
 
-class ViewServiceProvider extends ServiceProvider
+class ComposeServiceProvider extends ServiceProvider
 {
     /**
      * Register services.

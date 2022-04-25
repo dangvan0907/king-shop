@@ -2,27 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleCreateRequest;
+use App\Http\Requests\RoleUpdateRequest;
 use App\Models\Role;
+use App\Services\RoleService;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-    protected $role;
+    protected $roleService;
 
-    public function __construct(Role $role)
+    public function __construct(RoleService $roleService)
     {
-        $this->role = $role;
+        $this->roleService = $roleService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $roles = $this->role->all();
+        $roles = $this->roleService->search($request);
         return view('admin.roles.index', compact('roles'));
     }
 
     public function show($id)
     {
-        $role = $this->role->findOrFail($id);
+        $role = $this->getById($id);
         return view('admin.roles.show', compact('role'));
     }
 
@@ -31,28 +34,37 @@ class RoleController extends Controller
         return view('admin.roles.create');
     }
 
-    public function store(Request $request)
+    public function store(RoleCreateRequest $request)
     {
-        $this->role->create($request->all());
-        return redirect(route('roles.index'));
+        $this->roleService->create($request);
+        return redirect(route('roles.index'))->with('message', 'Create success!');
     }
 
     public function edit($id)
     {
-        $role = $this->role->findOrFail($id);
+        $role = $this->getById($id);
         return view('admin.roles.edit', compact('role'));
     }
 
-    public function update(Request $request, $id)
+    public function update(RoleUpdateRequest $request, $id)
     {
-        $role = $this->role->findOrFail($id);
+        $role = $this->roleService->update($request, $id);
         $role->update($request->all());
-        return redirect(route('roles.index'));
+        return redirect(route('roles.index'))->with('message', 'Update success!');
     }
 
     public function destroy($id)
     {
-        $this->role->delete($id);
-        return redirect(route('roles.index'));
+        $this->roleService->destroy($id);
+        return redirect(route('roles.index'))->with('message', 'Delete success!');
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getById($id)
+    {
+        return $this->roleService->findById($id);
     }
 }

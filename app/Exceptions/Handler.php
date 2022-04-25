@@ -27,6 +27,22 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
+    public function render($request, Throwable $e)
+    {
+        if($e instanceof ModelNotFoundException){
+            return response()->json([
+                'status'=>Response::HTTP_NOT_FOUND,
+                'message'=>$e->getMessage()
+            ], Response::HTTP_NOT_FOUND);
+        }
+        if($e instanceof NotFoundHttpException){
+            return response()->json([
+                'status'=>Response::HTTP_NOT_FOUND,
+                'message'=>$e->getMessage()
+            ], Response::HTTP_NOT_FOUND);
+        }
+        return parent::render($request,$e);
+    }
     /**
      * Register the exception handling callbacks for the application.
      *

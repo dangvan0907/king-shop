@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Composers;
+namespace App\View\Compose;
 
 use App\Services\CategoryService;
 use App\Services\ProductService;

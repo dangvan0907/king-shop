@@ -6,7 +6,6 @@ use App\Models\Category;
 
 class CategoryRepository extends BaseRepository
 {
-
     public function model()
     {
         return Category::class;
@@ -14,20 +13,18 @@ class CategoryRepository extends BaseRepository
 
     public function search($dataSearch)
     {
-        return $this->model->withName($dataSearch['name'])
-            ->withParentId($dataSearch['parent_id'])
-            ->latest('id')
-            ->paginate(5);
+        $parent_id = $dataSearch['parent_id'];
+        $name = $dataSearch['name'];
+        return $this->model->withName($name)->withParentId($parent_id)->latest("id")->paginate(5);
     }
 
-    public function getParentCategories()
+    public function getParent()
     {
-        return $this->model->withParentCategories()->get();
+        return $this->model->withParent()->latest('id')->paginate(5);
     }
 
-    public function getCategories()
+    public function getChildren()
     {
-        return $this->model->all();
+        return $this->model->withChildren()->latest('id')->paginate(1100000);
     }
 }
-
