@@ -3,20 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\RoleService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    protected $user;
+    protected $userService;
+    protected $roleService;
 
-    public function __construct(User $user)
+    public function __construct(UserService $userService,RoleService $roleService)
     {
-        $this->user = $user;
+        $this->userService = $userService;
+        $this->roleService=$roleService;
+        VIew::share('roles',$this->roleService->getRoleWithOutSuperAdmin());
     }
 
     public function index()
     {
-        $users = $this->user->all();
+        $users = $this->userservice->get
         return view('admin.users.index', compact('users'));
     }
 
