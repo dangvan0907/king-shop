@@ -85,9 +85,6 @@ class User extends Authenticatable
         return $this->roles()->sync($roleIds);
     }
 
-//    public function detachRoles(){
-//        return $this->roles()->detach();
-//    }
     /**
      * The attributes that should be cast.
      *
