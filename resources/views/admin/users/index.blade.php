@@ -24,7 +24,6 @@
                 <div class="col-12">
                     <div class="card">
                         <form action="{{route('users.index')}}" method="GET">
-                            @csrf
                             <div class="form-group search-product">
                                 <div class="input-group input-group-sm">
                                     <input name="email" type="search" class="form-control form-control-lg name-search"

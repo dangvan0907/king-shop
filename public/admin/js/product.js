@@ -1,4 +1,5 @@
 const Product = (function () {
+    let updateUrl='';
     let modules = {};
     modules.resetForm = function (element) {
         element.trigger("reset");
@@ -15,8 +16,9 @@ const Product = (function () {
     }
     modules.renderEdit = function (product, modal, url) {
         let img = Product.getUrlImage(product.image);
-        Product.resetForm($('#'+Constant.FORM_UPDATE));
-        $('.url', modal).val(url);
+        Product.resetForm($('#' + Constant.FORM_UPDATE));
+        // $('.url', modal).val(url);
+        updateUrl=url;
         $('.name', modal).val(product.name);
         $('.price', modal).val(product.price);
         $('.description', modal).val(product.description);
@@ -63,10 +65,10 @@ const Product = (function () {
             })
     };
     modules.update = function () {
-        let url = $('#url').val();
+        // let url = $('#url').val();
         let data = new FormData(document.getElementById(Constant.FORM_UPDATE));
         data.append('_method', Constant.PUT)
-        Base.CallProductApi(url, data, Constant.POST)
+        Base.CallProductApi(updateUrl, data, Constant.POST)
             .then(function (res) {
                 $('#editProductModal').modal('hide');
                 Product.resetForm($('#' + Constant.FORM_UPDATE))
@@ -82,7 +84,8 @@ const Product = (function () {
         Base.deleteConfirm()
             .then(function () {
                 event.preventDefault();
-                Base.CallProductApi(element.data('action'), {}, Constant.DELETE)
+                let url = element.data('action');
+                Base.CallProductApi(url, {}, Constant.DELETE)
                     .then(res => {
                         Product.getList($('#list').data('action'));
                         CustomAlert.alertSuccess(res.message);
@@ -128,7 +131,13 @@ $(document).ready(function (e) {
         e.preventDefault();
         Product.create();
     })
-    $(document).on('keyup', '.name-search, .min-price-search, .max-price-search', debounce(function () {
+    $(document).on('keyup', '.name-search', debounce(function () {
+        Product.list();
+    }, Constant.TIME))
+    $(document).on('keyup', '.min-price-search', debounce(function () {
+        Product.list();
+    }, Constant.TIME))
+    $(document).on('keyup', '.max-price-search', debounce(function () {
         Product.list();
     }, Constant.TIME))
     $(document).on('change', '#category_id', debounce(function () {

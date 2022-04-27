@@ -4,7 +4,7 @@ $.ajaxSetup({
     }
 });
 const Constant = {
-    DELETE:'delete',
+    DELETE:'DELETE',
     PUT:'put',
     POST:'POST',
     GET:'get',

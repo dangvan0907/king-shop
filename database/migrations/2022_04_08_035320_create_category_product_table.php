@@ -13,21 +13,21 @@ class CreateCategoryProductTable extends Migration
      */
     public function up()
     {
-//        Schema::create('category_product', function (Blueprint $table) {
-//            $table->unsignedInteger('product_id');
-//            $table->unsignedInteger('category_id');
-//            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-//            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-//            $table->timestamps();
-//        });
         Schema::create('category_product', function (Blueprint $table) {
-            $table->id();
-            $table->integer('product_id')->unsigned();
-            $table->integer('category_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->unsignedInteger('product_id');
+            $table->unsignedInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
         });
+//        Schema::create('category_product', function (Blueprint $table) {
+//            $table->id();
+//            $table->integer('product_id')->unsigned();
+//            $table->integer('category_id')->unsigned();
+//            $table->foreign('product_id')->references('id')->on('products');
+//            $table->foreign('category_id')->references('id')->on('categories');
+//            $table->timestamps();
+//        });
 
 
     }

@@ -133,7 +133,7 @@ Route::prefix('products')
             ->name('store')
             ->middleware('check.permission:store-product');
 
-        Route::delete('/{role}',
+        Route::delete('/{product}',
             [\App\Http\Controllers\ProductController::class, 'destroy'])
             ->name('destroy')
             ->middleware('check.permission:delete-product');
