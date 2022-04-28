@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Product;
 
-
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,11 +9,10 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-
 class GetListProductTest extends TestCase
 {
     /** @test */
-    public function authenticated_super_admin_can_get_all_product()
+    public function authenticatedSuperAdminCanGetAllProduct()
     {
         $this->loginWithSuperAdmin();
         $response = $this->get($this->getListProductRoute());
@@ -25,9 +23,9 @@ class GetListProductTest extends TestCase
 
 
     /** @test */
-    public function authenticated_user_have_permission_can_get_all_product()
+    public function authenticatedUserHavePermissionCanGetAllProduct()
     {
-        $this->loginUserWithPermission('index-product');;
+        $this->loginUserWithPermission('index-product');
         $response = $this->get($this->getListProductRoute());
 
         $response->assertStatus(Response::HTTP_OK);
@@ -35,7 +33,7 @@ class GetListProductTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticated_user_can_not_get_all_products()
+    public function unauthenticatedUserCanNotGetAllProducts()
     {
         $response = $this->get($this->getListProductRoute());
 
@@ -47,5 +45,4 @@ class GetListProductTest extends TestCase
     {
         return route('products.index');
     }
-
 }
