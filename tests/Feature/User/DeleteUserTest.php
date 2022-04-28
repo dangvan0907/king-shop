@@ -8,14 +8,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-
 class DeleteUserTest extends TestCase
 {
     /** @test */
-    public function authenticated_super_admin_can_delete_user()
+    public function authenticatedSuperAdminCanDeleteUser()
     {
         $this->loginWithSuperAdmin();
-        $user =  User::factory()->create();
+        $user = User::factory()->create();
         $response = $this->delete($this->getDeleteUserRoute($user->id));
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertRedirect(route('users.index'));
@@ -23,7 +22,7 @@ class DeleteUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_super_admin_can_not_delete_user_if_user_is_exist()
+    public function authenticatedSuperAdminCanNotDeleteUserIfUserIsExist()
     {
         $this->loginWithSuperAdmin();
         $userId = -1;
@@ -32,19 +31,19 @@ class DeleteUserTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticated_super_admin_can_not_delete_user()
+    public function unauthenticatedSuperAdminCanNotDeleteUser()
     {
-        $user =  User::factory()->create();
+        $user = User::factory()->create();
         $response = $this->delete($this->getDeleteUserRoute($user->id));
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertRedirect(route('login'));
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_delete_user()
+    public function authenticatedUserHavePermissionCanDeleteUser()
     {
         $this->loginUserWithPermission('delete-user');
-        $user =  User::factory()->create();
+        $user = User::factory()->create();
         $response = $this->delete($this->getDeleteUserRoute($user->id));
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertRedirect(route('users.index'));
@@ -52,7 +51,7 @@ class DeleteUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_not_delete_user_if_user_is_exist()
+    public function authenticatedUserHavePermissionCanNotDeleteUserIfUserIsExist()
     {
         $this->loginUserWithPermission('delete-user');
         $userId = -1;
@@ -61,18 +60,18 @@ class DeleteUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_can_not_delete_user()
+    public function authenticatedUserCanNotDeleteUser()
     {
         $this->loginWithUser();
-        $user =  User::factory()->create();
+        $user = User::factory()->create();
         $response = $this->delete($this->getDeleteUserRoute($user->id));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /** @test */
-    public function unauthenticated_user_have_permission_can_not_delete_user()
+    public function unauthenticatedUserHavePermissionCanNotDeleteUser()
     {
-        $user =  User::factory()->create();
+        $user = User::factory()->create();
         $response = $this->delete($this->getDeleteUserRoute($user->id));
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertRedirect(route('login'));
@@ -82,5 +81,4 @@ class DeleteUserTest extends TestCase
     {
         return route('users.destroy', $id);
     }
-
 }

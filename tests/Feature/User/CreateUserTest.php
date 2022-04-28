@@ -10,22 +10,21 @@ use Illuminate\Http\Response;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
-
 class CreateUserTest extends TestCase
 {
     /** @test */
-    public function super_admin_can_create_new_user()
+    public function superAdminCanCreateNewUser()
     {
         $this->loginWithSuperAdmin();
         $dataCreate = User::factory()->create()->toArray();
-        $response = $this->post(route('users.store',$dataCreate));
+        $response = $this->post(route('users.store', $dataCreate));
 
-        $this->assertDatabaseHas('users',$dataCreate);
+        $this->assertDatabaseHas('users', $dataCreate);
         $response->assertStatus(Response::HTTP_FOUND);
     }
 
     /** @test */
-    public function super_admin_can_not_create_new_role_if_name_email_and_password_null()
+    public function superAdminCanNotCreateNewRoleIfNameEmailAndPasswordNull()
     {
         $this->loginWithSuperAdmin();
         $data = User::factory()->make([
@@ -40,7 +39,7 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
-    public function super_admin_can_not_create_new_role_if_name_null()
+    public function superAdminCanNotCreateNewRoleIfNameNull()
     {
         $this->loginWithSuperAdmin();
         $data = User::factory()->make([
@@ -52,7 +51,7 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
-    public function super_admin_can_not_create_new_role_if_email_null()
+    public function superAdminCanNotCreateNewRoleIfEmailNull()
     {
         $this->loginWithSuperAdmin();
         $data = User::factory()->make([
@@ -64,7 +63,7 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
-    public function super_admin_can_not_create_new_role_if_password_null()
+    public function superAdminCanNotCreateNewRoleIfPasswordNull()
     {
         $this->loginWithSuperAdmin();
         $data = User::factory()->make([
@@ -75,7 +74,7 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
-    public function super_admin_can_see_text_error_create_user_if_name_null()
+    public function superAdminCanSeeTextErrorCreateUserIfNameNull()
     {
         $this->loginWithSuperAdmin();
         $data = User::factory()->make([
@@ -87,7 +86,7 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_see_create_user_form()
+    public function authenticatedUserHavePermissionCanSeeCreateUserForm()
     {
         $this->loginUserWithPermission('create-user');
         $response = $this->get($this->getCreateUserRoute());
@@ -97,7 +96,7 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_create_user()
+    public function authenticatedUserHavePermissionCanCreateUser()
     {
         $this->loginUserWithPermission('create-user');
         $dataCreate = User::factory()->hasAttached(Role::factory()->count(1))->make();
@@ -107,7 +106,7 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_not_create_new_role_if_name_email_and_password_null()
+    public function authenticatedUserHavePermissionCanNotCreateNewRoleIfNameEmailAndPasswordNull()
     {
         $this->loginUserWithPermission('create-user');
         $data = User::factory()->make([
@@ -122,19 +121,17 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_not_create_new_role_if_name_null()
+    public function authenticatedUserHavePermissionCanNotCreateNewRoleIfNameNull()
     {
-        $this->loginUserWithPermission('create-user');;
-        $data = User::factory()->make([
-            'name' => null,
-        ])->toArray();
+        $this->loginUserWithPermission('create-user');
+        $data = User::factory()->make(['name' => null,])->toArray();
         $response = $this->post($this->getStoreUserRoute(), $data);
 
         $response->assertSessionHasErrors(['name']);
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_not_create_new_role_if_email_null()
+    public function authenticatedUserHavePermissionCanNotCreateNewRoleIdEmailNull()
     {
         $this->loginUserWithPermission('create-user');
         $data = User::factory()->make([
@@ -146,7 +143,7 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_not_create_new_role_if_password_null()
+    public function authenticatedUserHavePermissionCanNotCreateNewRoleIfPasswordNull()
     {
         $this->loginUserWithPermission('create-user');
         $data = User::factory()->make([
@@ -158,7 +155,7 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_see_text_error_create_user_if_name_null()
+    public function authenticatedUserHavePermissionCanSeeTextErrorCreateUserIfNameNull()
     {
         $this->loginUserWithPermission('create-user');
         $data = User::factory()->make([
@@ -170,7 +167,7 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_not_have_permission_can_not_see_create_user_form()
+    public function authenticatedUserNotHavePermissionCanNotSeeCreateUserForm()
     {
         $this->loginWithUser();
         $response = $this->get($this->getCreateUserRoute());
@@ -179,19 +176,19 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticated_user_can_not_see_create_user_form()
+    public function unauthenticatedUserCanNotSeeCreateUserForm()
     {
         $user = User::factory()->create();
-        $response = $this->get($this->getCreateUserRoute(),$user->toArray());
+        $response = $this->get($this->getCreateUserRoute(), $user->toArray());
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertRedirect(route('login'));
     }
 
     /** @test */
-    public function unauthenticated_user_can_not_create_user_can_not_see_create()
+    public function unauthenticatedUserCanNotCreateUserCanNotSeeCreate()
     {
-        $user = $this->_makeFactoryUser();
-        $response = $this->post($this->getStoreUserRoute(),$user);
+        $user = $this->makeFactoryUser();
+        $response = $this->post($this->getStoreUserRoute(), $user);
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertRedirect(route('login'));
     }
@@ -206,7 +203,7 @@ class CreateUserTest extends TestCase
         return route('users.store');
     }
 
-    public function _makeFactoryUser()
+    public function makeFactoryUser()
     {
         return User::factory()->make()->toArray();
     }
