@@ -11,11 +11,10 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
-
 class UpdateUserTest extends TestCase
 {
     /** @test */
-    public function authenticated_super_admin_can_see_edit_user_form()
+    public function authenticatedSuperAdminCanSeeEditUserForm()
     {
         $this->loginWithSuperAdmin();
         $user = User::factory()->create();
@@ -26,21 +25,8 @@ class UpdateUserTest extends TestCase
         $response->assertSee(['name'])->assertSee(['email']);
     }
 
-//    /** @test */
-//    public function authenticated_super_admin_can_update_user()
-//    {
-//        $this->loginWithSuperAdmin();
-//        $user = User::factory()->create();
-//        $dataUpdate = $this->_makeFactoryUser();
-//        $response = $this->put($this->getUpdateUserRoute($user->id), $dataUpdate);
-//
-//        $response->assertStatus(Response::HTTP_FOUND);
-//        $this->assertDatabaseHas('users', $dataUpdate);
-//        $response->assertRedirect(route('users.index'));
-//    }
-
     /** @test */
-    public function authenticated_super_admin_can_not_update_user_name_and_email_are_null()
+    public function authenticatedSuperAdminCanNotUpdateUserNameAndEmailAreNull()
     {
         $this->loginWithSuperAdmin();
         $user = User::factory()->create();
@@ -54,7 +40,7 @@ class UpdateUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_super_admin_can_not_update_user_name_is_null()
+    public function authenticatedSuperAdminCanNotUpdateUserNameIsNull()
     {
         $this->loginWithSuperAdmin();
         $user = User::factory()->create();
@@ -67,7 +53,7 @@ class UpdateUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_super_admin_can_not_update_user_email_is_null()
+    public function authenticatedSuperAdminCanNotUpdateUserEmailIsNull()
     {
         $this->loginWithSuperAdmin();
         $user = User::factory()->create();
@@ -76,24 +62,25 @@ class UpdateUserTest extends TestCase
         ];
         $response = $this->put($this->getUpdateUserRoute($user->id), $dataUpdate);
 
-        $response->assertSessionHasErrors( 'email');
+        $response->assertSessionHasErrors('email');
     }
 
-    /** @test  */
-    public function authenticated_super_admin_can_see_text_error_update_user_if_name_null()
+    /** @test */
+    public function authenticatedSuperAdminCanSeeTextErrorUpdateUserIfNameNull()
     {
         $this->loginWithSuperAdmin();
         $user = User::factory()->create();
         $dataUpdate = [
             'name' => null,
         ];
-        $response = $this->from($this->getEditUserRoute($user->id))->put($this->getUpdateUserRoute($user->id), $dataUpdate);
+        $response = $this->from($this->getEditUserRoute($user->id))->
+        put($this->getUpdateUserRoute($user->id), $dataUpdate);
 
-        $response->assertSessionHasErrors( 'name');
+        $response->assertSessionHasErrors('name');
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_not_see_edit_user_form()
+    public function authenticatedUserHavePermissionCanNotSeeEditUserForm()
     {
         $this->loginUserWithPermission('edit-user');
         $user = User::factory()->create();
@@ -104,21 +91,8 @@ class UpdateUserTest extends TestCase
         $response->assertSee(['name'])->assertSee(['email']);
     }
 
-//    /** @test */
-//    public function authenticated_user_have_permission_can_update_user()
-//    {
-//        $this->loginUserWithPermission('update-user');
-//        $user = User::factory()->create();
-//        $dataUpdate = $this->_makeFactoryUser();
-//        $response = $this->put($this->getUpdateUserRoute($user->id), $dataUpdate);
-//
-//        $response->assertStatus(Response::HTTP_FOUND);
-//        $this->assertDatabaseHas('users', $dataUpdate);
-//        $response->assertRedirect(route('users.index'));
-//    }
-
     /** @test */
-    public function authenticated_user_have_permission_can_not_update_user_name_and_email_are_null()
+    public function authenticatedUserHavePermissionCanNotUpdateUserNameAndEmailAreNull()
     {
         $this->loginUserWithPermission('update-user');
         $user = User::factory()->create();
@@ -132,7 +106,7 @@ class UpdateUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_not_update_user_name_is_null()
+    public function authenticatedUserHavePermissionCanNotUpdateUserNameIsNull()
     {
         $this->loginUserWithPermission('update-user');
         $user = User::factory()->create();
@@ -145,7 +119,7 @@ class UpdateUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_not_update_user_email_is_null()
+    public function authenticatedUserHavePermissionCanNotUpdateUserEmailIsNull()
     {
         $this->loginUserWithPermission('update-user');
         $user = User::factory()->create();
@@ -157,21 +131,22 @@ class UpdateUserTest extends TestCase
         $response->assertSessionHasErrors('email');
     }
 
-    /** @test  */
-    public function authenticated_user_have_permission_can_see_text_error_update_user_if_name_null()
+    /** @test */
+    public function authenticatedUserHavePermissionCanSeeTextErrorUpdateUserIfNameNull()
     {
         $this->loginWithSuperAdmin();
         $user = User::factory()->create();
         $dataUpdate = [
             'name' => null,
         ];
-        $response = $this->from($this->getEditUserRoute($user->id))->put($this->getUpdateUserRoute($user->id), $dataUpdate);
+        $response = $this->from($this->getEditUserRoute($user->id))->
+        put($this->getUpdateUserRoute($user->id), $dataUpdate);
 
-        $response->assertSessionHasErrors( 'name');
+        $response->assertSessionHasErrors('name');
     }
 
     /** @test */
-    public function unauthenticated_user_have_permission_can_not_see_edit_user_form()
+    public function unauthenticatedUserHavePermissionCanNotSeeEditUserForm()
     {
         $user = User::factory()->create();
         $response = $this->get($this->getEditUserRoute($user->id));
@@ -187,12 +162,11 @@ class UpdateUserTest extends TestCase
 
     public function getUpdateUserRoute($id)
     {
-        return route('users.update',$id);
+        return route('users.update', $id);
     }
 
-    public function _makeFactoryUser()
+    public function makeFactoryUser()
     {
         return User::factory()->make()->toArray();
     }
-
 }

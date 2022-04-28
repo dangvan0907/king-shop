@@ -21,7 +21,6 @@
     <div class="card">
         <div class="card-header border-transparent">
             <form action="{{route('roles.index')}}" method="GET">
-                @csrf
                 <div class="form-group">
                     <div class="input-group input-group-sm">
                         <input name="display_name" type="search" class="form-control form-control-lg"

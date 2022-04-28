@@ -21,7 +21,6 @@
     <div class="card">
         <div class="card-header border-transparent">
             <form action="{{route('categories.index')}}" method="GET">
-                @csrf
                 <div class="form-group">
                     <div class="input-group input-group-sm">
                         <input name="name" type="search" class="form-control form-control-lg"

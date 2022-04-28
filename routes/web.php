@@ -54,7 +54,6 @@ Route::prefix('users')
             [\App\Http\Controllers\UserController::class, 'destroy'])
             ->name('destroy')
             ->middleware('check.permission:delete-user');
-
     });
 Route::prefix('roles')
     ->middleware('auth')
