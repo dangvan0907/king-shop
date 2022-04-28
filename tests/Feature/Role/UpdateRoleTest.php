@@ -11,7 +11,7 @@ use Tests\TestCase;
 class UpdateRoleTest extends TestCase
 {
     /** @test  */
-    public function authenticated_super_admin_can_see_form_edit_role()
+    public function authenticatedSuperAdminCanSeeFormEditRole()
     {
         $this->loginWithSuperAdmin();
         $role = Role::factory()->create();
@@ -22,11 +22,11 @@ class UpdateRoleTest extends TestCase
     }
 
     /** @test  */
-    public function authenticated_super_admin_can_edit_role()
+    public function authenticatedSuperAdminCanEditRole()
     {
         $this->loginWithSuperAdmin();
         $role = Role::factory()->create();
-        $dataUpdate = $this->_makeFactoryRole();
+        $dataUpdate = $this->makeFactoryRole();
         $response = $this->put($this->getUpdateRoleTest($role->id), $dataUpdate);
 
         $response->assertStatus(Response::HTTP_FOUND);
@@ -35,7 +35,7 @@ class UpdateRoleTest extends TestCase
     }
 
     /** @test  */
-    public function authenticated_super_admin_can_not_update_role_if_name_null()
+    public function authenticatedSuperAdminCanNotUpdateRoleIfNameNull()
     {
         $this->loginWithSuperAdmin();
         $role = Role::factory()->create();
@@ -47,20 +47,21 @@ class UpdateRoleTest extends TestCase
     }
 
     /** @test  */
-    public function authenticated_super_admin_can_see_text_error_update_role_if_name_null()
+    public function authenticatedSuperAdminCanSeeTextErrorUpdateRoleIfNameNull()
     {
         $this->loginWithSuperAdmin();
         $role = Role::factory()->create();
         $dataUpdate = Role::factory()->make([
             'name' => null
         ])->toArray();
-        $response = $this->from($this->getEditRoleTest($role->id))->put($this->getUpdateRoleTest($role->id), $dataUpdate);
+        $response = $this->from($this->getEditRoleTest($role->id))->
+        put($this->getUpdateRoleTest($role->id), $dataUpdate);
 
         $response->assertSessionHasErrors('name');
     }
 
     /** @test  */
-    public function authenticated_super_admin_can_not_update_role_if_display_name_null()
+    public function authenticatedSuperAdminCanNotUpdateRoleIfDisplayNameNull()
     {
         $this->loginWithSuperAdmin();
         $role = Role::factory()->create();
@@ -73,7 +74,7 @@ class UpdateRoleTest extends TestCase
     }
 
     /** @test  */
-    public function authenticated_super_admin_can_not_update_role_if_name_and_display_null()
+    public function authenticatedSuperAdminCanNotUpdateRoleIfNameAndDisplayNull()
     {
         $this->loginWithSuperAdmin();
         $role = Role::factory()->create();
@@ -87,7 +88,7 @@ class UpdateRoleTest extends TestCase
     }
 
     /** @test  */
-    public function authenticated_user_have_permission_can_see_form_edit_role()
+    public function authenticatedUserHavePermissionCanSeeFormEditRole()
     {
         $this->loginUserWithPermission('edit-role');
         $role = Role::factory()->create();
@@ -98,7 +99,7 @@ class UpdateRoleTest extends TestCase
     }
 
     /** @test  */
-    public function authenticated_user_have_permission_can_edit_role()
+    public function authenticatedUserHavePermissionCanEditRole()
     {
         $this->loginUserWithPermission('update-role');
         $role = Role::factory()->create();
@@ -106,13 +107,10 @@ class UpdateRoleTest extends TestCase
         $response = $this->put($this->getUpdateRoleTest($role->id), $dataUpdate);
 
         $response->assertStatus(Response::HTTP_FOUND);
-//        $this->assertDatabaseHas('roles', $dataUpdate);
-//        $response->assertRedirect(route('roles.index'));
-
     }
 
     /** @test  */
-    public function authenticated_user_have_permission_can_not_update_role_if_name_null()
+    public function authenticatedUserHavePermissionCanNotUpdateRoleIfNameNull()
     {
         $this->loginUserWithPermission('update-role');
         $role = Role::factory()->create();
@@ -126,20 +124,21 @@ class UpdateRoleTest extends TestCase
     }
 
     /** @test  */
-    public function authenticated_user_have_permission_can_see_text_error_update_role_if_name_null()
+    public function authenticatedUserHavePermissionCanSeeTextErrorUpdateRoleIfNameNull()
     {
         $this->loginUserWithPermission('update-role');
         $role = Role::factory()->create();
         $dataUpdate = Role::factory()->make([
             'name' => null
         ])->toArray();
-        $response = $this->from($this->getEditRoleTest($role->id))->put($this->getUpdateRoleTest($role->id), $dataUpdate);
+        $response = $this->from($this->getEditRoleTest($role->id))->
+        put($this->getUpdateRoleTest($role->id), $dataUpdate);
 
         $response->assertSessionHasErrors('name');
     }
 
     /** @test  */
-    public function authenticated_user_have_permission_can_not_update_role_if_display_name_null()
+    public function authenticatedUserHavePermissionCanNotUpdateRoleIfDisplayNameNull()
     {
         $this->loginUserWithPermission('update-role');
         $role = Role::factory()->create();
@@ -152,7 +151,7 @@ class UpdateRoleTest extends TestCase
     }
 
     /** @test  */
-    public function authenticated_user_have_permission_can_not_update_role_if_name_and_display_null()
+    public function authenticatedUserHavePermissionCanNotUpdateRoleIfNameAndDisplayNull()
     {
         $this->loginUserWithPermission('update-role');
         $role = Role::factory()->create();
@@ -166,10 +165,10 @@ class UpdateRoleTest extends TestCase
     }
 
     /** @test  */
-    public function unauthenticated_user_cannot_edit_role()
+    public function unauthenticatedUserCannotEditRole()
     {
         $role = Role::factory()->create();
-        $dataUpdate = $this->_makeFactoryRole();
+        $dataUpdate = $this->makeFactoryRole();
         $response = $this->put($this->getUpdateRoleTest($role->id), $dataUpdate);
 
         $response->assertStatus(Response::HTTP_FOUND);
@@ -177,7 +176,7 @@ class UpdateRoleTest extends TestCase
     }
 
     /** @test  */
-    public function unauthenticated_user_can_not_see_form_edit_role()
+    public function unauthenticatedUserCanNotSeeFormEditRole()
     {
         $role = Role::factory()->create();
         $response = $this->get($this->getEditRoleTest($role->id));
@@ -187,7 +186,7 @@ class UpdateRoleTest extends TestCase
     }
 
     /** @test  */
-    public function authenticated_user_have_permission_can_not_see_form_edit_role_if_role_is_exist()
+    public function authenticatedUserHavePermissionCanNotSeeFormEditRoleIfRoleIsExist()
     {
         $this->loginUserWithPermission('edit-role');
         $roleId = -1;
@@ -206,9 +205,8 @@ class UpdateRoleTest extends TestCase
         return route('roles.update', $id);
     }
 
-    public function _makeFactoryRole()
+    public function makeFactoryRole()
     {
         return Role::factory()->make()->toArray();
     }
-
 }

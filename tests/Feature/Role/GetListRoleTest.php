@@ -1,6 +1,7 @@
 <?php
 
 namespace Tests\Feature\Role;
+
 use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -10,7 +11,7 @@ use Tests\TestCase;
 class GetListRoleTest extends TestCase
 {
     /** @test */
-    public function authenticated_super_admin_can_get_all_roles()
+    public function authenticatedSuperAdminCanGetAllRoles()
     {
         $this->loginWithSuperAdmin();
         $role = Role::factory()->create();
@@ -22,7 +23,7 @@ class GetListRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_get_all_roles()
+    public function authenticatedUserHavePermissionCanGetAllRoles()
     {
         $this->loginUserWithPermission('index-role');
         $role = Role::factory()->create();
@@ -33,10 +34,10 @@ class GetListRoleTest extends TestCase
         $response->assertSee($role->display_name);
     }
 
-    /** @test  */
-    public function unauthenticated_user_can_not_get_all_roles()
+    /** @test */
+    public function unauthenticatedUserCanNotGetAllRoles()
     {
-        $response =  $this->get($this->getListRoleRoute());
+        $response = $this->get($this->getListRoleRoute());
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertRedirect(route('login'));
     }
@@ -45,5 +46,4 @@ class GetListRoleTest extends TestCase
     {
         return route('roles.index');
     }
-
 }

@@ -11,7 +11,7 @@ use Tests\TestCase;
 class DeleteRoleTest extends TestCase
 {
     /** @test */
-    public function authenticated_super_admin_can_delete_role()
+    public function authenticatedSuperAdminCanDeleteRole()
     {
         $this->loginWithSuperAdmin();
         $role = Role::factory()->create();
@@ -23,7 +23,7 @@ class DeleteRoleTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticated_user_can_not_delete_role()
+    public function unauthenticatedUserCanNotDeleteRole()
     {
         $role = Role::factory()->create();
         $response = $this->delete($this->getDeleteRoleRoute($role->id));
@@ -33,7 +33,7 @@ class DeleteRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_super_admin_can_not_delete_role_if_role_is_exist()
+    public function authenticatedSuperAdminCanNotDeleteRoleIfRoleIsExist()
     {
         $this->loginWithSuperAdmin();
         $roleId = -1;
@@ -42,7 +42,7 @@ class DeleteRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_delete_role()
+    public function authenticatedUserHavePermissionCanDeleteRole()
     {
         $this->loginUserWithPermission('delete-role');
         $role = Role::factory()->create();
@@ -54,7 +54,7 @@ class DeleteRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_not_delete_role_if_role_is_exist()
+    public function authenticatedUserHavePermissionCanNotDeleteRoleIfRoleIsExist()
     {
         $this->loginUserWithPermission('delete-role');
         $roleId = -1;
@@ -65,6 +65,6 @@ class DeleteRoleTest extends TestCase
 
     public function getDeleteRoleRoute($id)
     {
-        return route('roles.destroy',$id);
+        return route('roles.destroy', $id);
     }
 }
