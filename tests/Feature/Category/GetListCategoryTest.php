@@ -8,11 +8,10 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-
 class GetListCategoryTest extends TestCase
 {
-    /** @test  */
-    public function authenticated_super_admin_can_get_all_category()
+    /** @test */
+    public function authenticatedSuperAdminCanGetAllCategory()
     {
         $this->loginWithSuperAdmin();
         $category = Category::factory()->create();
@@ -24,7 +23,7 @@ class GetListCategoryTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_can_get_list_category()
+    public function authenticatedUserCanGetListCategory()
     {
         $this->loginUserWithPermission('index-category');
         $response = $this->get($this->getListCategoryRoute());
@@ -34,7 +33,7 @@ class GetListCategoryTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticated_user_can_not_get_list_category()
+    public function unauthenticatedUserCanNotGetListCategory()
     {
         $response = $this->get(route('categories.index'));
 
@@ -46,5 +45,4 @@ class GetListCategoryTest extends TestCase
     {
         return route('categories.index');
     }
-
 }
