@@ -13,7 +13,7 @@ use Tests\TestCase;
 class UpdateProductTest extends TestCase
 {
     /** @test */
-    public function anauthenticated_user_can_not_see_edit_product_view()
+    public function authenticatedUserCanNotSeeEditProductView()
     {
         $this->loginWithSuperAdmin();
         $product = Product::factory()->create()->toArray();
@@ -22,14 +22,12 @@ class UpdateProductTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJson(fn(AssertableJson $json) =>
             $json->has('data', fn(AssertableJson $json) =>
-            $json->where('name', $product['name'])
-                ->etc()
-            )->etc()
-        );
+                $json->where('name', $product['name'])
+                ->etc())->etc());
     }
 
     /** @test */
-    public function unauthenticated_user_can_not_see_edit_product_view()
+    public function unauthenticatedUserCanNotSeeEditProductView()
     {
         $product = Product::factory()->create();
         $response = $this->get($this->getEditProductRoute($product->id));
@@ -39,7 +37,7 @@ class UpdateProductTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_authorize_user_can_edit_product_if_data_is_valid()
+    public function authenticatedAuthorizeUserCanEditProductIfDataIsValid()
     {
         $this->loginWithSuperAdmin();
         $file = UploadedFile::fake()->image('image.jpg');
@@ -53,13 +51,11 @@ class UpdateProductTest extends TestCase
         $json->has('data', fn(AssertableJson $json) =>
         $json->where('name', $dataEdit['name'])
             ->where('description', $dataEdit['description'])
-            ->etc()
-        )->etc()
-        );
+            ->etc())->etc());
     }
 
     /** @test */
-    public function authenticated_authorize_user_can_not_edit_product_if_name_field_is_null()
+    public function authenticatedAuthorizeUserCanNotEditProductIfNameFieldIsNull()
     {
         $this->loginWithSuperAdmin();
         $file = UploadedFile::fake()->image('image.jpg');
@@ -70,13 +66,11 @@ class UpdateProductTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJson(fn(AssertableJson $json) =>
         $json->has('errors', fn(AssertableJson $json) =>
-        $json->has('name'))
-            ->etc()
-        );
+        $json->has('name'))->etc());
     }
 
     /** @test */
-    public function authenticated_authorize_user_can_not_edit_product_if_price_field_is_null()
+    public function authenticatedAuthorizeUserCanNotEditProductIfPriceFieldIsNull()
     {
         $this->loginWithSuperAdmin();
         $file = UploadedFile::fake()->image('image.jpg');
@@ -87,13 +81,11 @@ class UpdateProductTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJson(fn(AssertableJson $json) =>
         $json->has('errors', fn(AssertableJson $json) =>
-        $json->has('price'))
-            ->etc()
-        );
+        $json->has('price'))->etc());
     }
 
     /** @test */
-    public function authenticated_authorize_user_can_not_edit_product_if_description_field_is_null()
+    public function authenticatedAuthorizeUserCanNotEditProductIfDescriptionFieldIsNull()
     {
         $this->loginWithSuperAdmin();
         $file = UploadedFile::fake()->image('image.jpg');
@@ -104,18 +96,14 @@ class UpdateProductTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJson(fn(AssertableJson $json) =>
         $json->has('errors', fn(AssertableJson $json) =>
-        $json->has('description'))
-            ->etc()
-        );
+        $json->has('description'))->etc());
     }
 
     /** @test */
-    public function authenticated_authorize_user_can_not_edit_cate_if_image_field_is_not_image()
+    public function authenticatedAuthorizeUserCanNotEditCateIfImageFieldIsNotImage()
     {
         $this->loginWithSuperAdmin();
-        $file = UploadedFile::fake()->create(
-            'document.pdf', 123, 'application/pdf'
-        );
+        $file = UploadedFile::fake()->create('document.pdf', 123, 'application/pdf');
         $dataCreated = Product::factory()->create()->toArray();
         $dataEdit = Product::factory()->make(['image' => $file])->toArray();
         $response = $this->putJson($this->getUpdateProductRoute($dataCreated['id']), $dataEdit);
@@ -123,14 +111,11 @@ class UpdateProductTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJson(fn(AssertableJson $json) =>
         $json->has('errors', fn(AssertableJson $json) =>
-        $json->has('image')
-            ->has('image'))
-            ->etc()
-        );
+        $json->has('image')->has('image'))->etc());
     }
 
     /** @test */
-    public function authenticated_not_authorize_user_can_not_edit_product()
+    public function authenticatedNotAuthorizeUserCanNotEditProduct()
     {
         $this->loginWithUser();
         $file = UploadedFile::fake()->image('image.jpg');
@@ -150,10 +135,5 @@ class UpdateProductTest extends TestCase
     public function getUpdateProductRoute($id)
     {
         return route('products.update', $id);
-    }
-
-    public function _makeFactoryProduct()
-    {
-        return Product::factory()->make()->toArray();
     }
 }

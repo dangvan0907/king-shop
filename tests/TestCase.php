@@ -38,5 +38,4 @@ abstract class TestCase extends BaseTestCase
         $role->permissions()->attach($permission->pluck('id'));
         return $this->actingAs($user);
     }
-
 }

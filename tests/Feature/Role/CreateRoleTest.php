@@ -11,7 +11,7 @@ use Tests\TestCase;
 class CreateRoleTest extends TestCase
 {
     /** @test */
-    public function unauthenticated_user_can_not_see_create_form()
+    public function unauthenticatedUserCanNotSeeCreateForm()
     {
         $response = $this->get($this->getCreateRoleRoute());
 
@@ -20,7 +20,7 @@ class CreateRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_see_create_form()
+    public function authenticatedUserHavePermissionCanSeeCreateForm()
     {
         $this->loginUserWithPermission('create-role');
         $response = $this->get($this->getCreateRoleRoute());
@@ -30,7 +30,7 @@ class CreateRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_can_new_create_form()
+    public function authenticatedUserCanNewCreateForm()
     {
         $this->loginUserWithPermission('store-role');
         $role = $this->_makeFactoryRole();
@@ -42,7 +42,7 @@ class CreateRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_not_new_create_role_if_name_null()
+    public function authenticatedUserHavePermissionCanNotNewCreateRoleIfNameNull()
     {
         $this->loginUserWithPermission('store-role');
         $role = Role::factory()->make([
@@ -54,7 +54,7 @@ class CreateRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_not_new_create_role_if_display_name_null()
+    public function authenticatedUserHavePermissionCanNotNewCreateRoleIfDisplayNameNull()
     {
         $this->loginUserWithPermission('store-role');
         $role = Role::factory()->make([
@@ -65,7 +65,7 @@ class CreateRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_not_new_create_role_if_display_name_and_display_name_null()
+    public function authenticatedUserHavePermissionCanNotNewCreateRoleIfDisplayNameAndDisplayNameNull()
     {
         $this->loginUserWithPermission('store-role');
         $role = Role::factory()->make([
@@ -78,7 +78,7 @@ class CreateRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_user_have_permission_can_see_text_error_create_role_if_name_null()
+    public function authenticateduserHavePermissionCanSeeTextErrorCreateRoleIfNameNull()
     {
         $this->loginUserWithPermission('store-role');
         $role = Role::factory()->make([
@@ -90,7 +90,7 @@ class CreateRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_super_admin_can_see_create_form()
+    public function authenticatedSuperAdminCanSeeCreateForm()
     {
         $this->loginWithSuperAdmin();
         $response = $this->get($this->getCreateRoleRoute());
@@ -100,7 +100,7 @@ class CreateRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_super_admin_can_new_create_role()
+    public function authenticatedSuperAdminCanNewCreateRole()
     {
         $this->loginWithSuperAdmin();
         $role = $this->_makeFactoryRole();
@@ -112,7 +112,7 @@ class CreateRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_super_admin_can_not_new_create_role_if_name_null()
+    public function authenticatedSuperAdminCanNotNewCreateRoleIfNameNull()
     {
         $this->loginWithSuperAdmin();
         $role = Role::factory()->make([
@@ -124,7 +124,7 @@ class CreateRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_super_admin_can_not_new_create_role_if_display_name_null()
+    public function authenticatedSuperAdminCanNotNewCreateRoleIfDisplayNameNull()
     {
         $this->loginWithSuperAdmin();
         $role = Role::factory()->make([
@@ -136,7 +136,7 @@ class CreateRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_super_admin_can_not_new_create_role_if_display_name_and_display_name_null()
+    public function authenticatedSuperAdminCanNotNewCreateRoleIfDisplayNameAndDisplayNameNull()
     {
         $this->loginWithSuperAdmin();
         $role = Role::factory()->make([
@@ -149,7 +149,7 @@ class CreateRoleTest extends TestCase
     }
 
     /** @test */
-    public function authenticated_super_admin_can_see_text_error_create_role_if_name_null()
+    public function authenticatedSuperAdminCanSeeTextErrorCreateRoleIfNameNull()
     {
         $this->loginWithSuperAdmin();
         $role = Role::factory()->make([
@@ -170,7 +170,7 @@ class CreateRoleTest extends TestCase
         return route('roles.store');
     }
 
-    public function _makeFactoryRole()
+    public function makeFactoryRole()
     {
         return Role::factory()->make()->toArray();
     }
