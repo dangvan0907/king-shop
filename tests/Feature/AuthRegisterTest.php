@@ -11,7 +11,7 @@ use Tests\TestCase;
 class AuthRegisterTest extends TestCase
 {
     /** @test */
-    public function user_can_view_form_register()
+    public function userCanViewFormRegister()
     {
         $response = $this->get('/register');
 
@@ -19,7 +19,7 @@ class AuthRegisterTest extends TestCase
     }
 
     /** @test */
-    public function user_can_register_if_data_is_valid()
+    public function userCanRegisterIfDataIsValid()
     {
         $user = User::factory()->make();
         $dataRegister = [
@@ -35,7 +35,7 @@ class AuthRegisterTest extends TestCase
     }
 
     /** @test */
-    public function user_can_not_register_if_password_and_confirm_password_dont_match()
+    public function userCanNotRegisterIfPasswordAndConfirmPasswordDontMatch()
     {
         $user = User::factory()->make();
         $response = $this->post('register', [
@@ -50,7 +50,7 @@ class AuthRegisterTest extends TestCase
     }
 
     /** @test */
-    public function user_can_not_register_if_password_is_null()
+    public function userCanNotRegisterIfPasswordIsNull()
     {
         $dataRegister = User::factory()->make([
             'password' => null
@@ -62,7 +62,7 @@ class AuthRegisterTest extends TestCase
     }
 
     /** @test */
-    public function user_can_not_register_if_email_is_null()
+    public function userCanNotRegisterIfEmailIsNull()
     {
         $dataRegister = User::factory()->make([
             'email' => null
@@ -74,7 +74,7 @@ class AuthRegisterTest extends TestCase
     }
 
     /** @test */
-    public function user_can_not_register_if_name_is_null()
+    public function userCanNotRegisterIfNameIsNull()
     {
         $dataRegister = User::factory()->make([
             'name' => null
