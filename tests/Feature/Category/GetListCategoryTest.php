@@ -10,8 +10,8 @@ use Tests\TestCase;
 
 class GetListCategoryTest extends TestCase
 {
-    /** @test */
-    public function authenticatedSuperAdminCanGetAllCategory()
+    /** @test  */
+    public function authenticated_super_admin_can_get_all_category()
     {
         $this->loginWithSuperAdmin();
         $category = Category::factory()->create();
@@ -23,7 +23,7 @@ class GetListCategoryTest extends TestCase
     }
 
     /** @test */
-    public function authenticatedUserCanGetListCategory()
+    public function authenticated_user_can_get_list_category()
     {
         $this->loginUserWithPermission('index-category');
         $response = $this->get($this->getListCategoryRoute());
@@ -33,7 +33,7 @@ class GetListCategoryTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticatedUserCanNotGetListCategory()
+    public function unauthenticated_user_can_not_get_list_category()
     {
         $response = $this->get(route('categories.index'));
 
