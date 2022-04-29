@@ -11,7 +11,7 @@ use Tests\TestCase;
 class GetShowUserTest extends TestCase
 {
     /** @test */
-    public function authenticatedUserCanSeeUserDetailIfUserIsExist()
+    public function authenticated_user_can_see_user_detail_if_user_is_exist()
     {
         $this->loginWithSuperAdmin();
         $userCreated = User::factory()->create();
@@ -21,7 +21,7 @@ class GetShowUserTest extends TestCase
     }
 
     /** @test */
-    public function authenticatedUserCanNotSeeUserDetailIfUserIsNotExist()
+    public function authenticated_user_can_not_see_user_detail_if_user_is_not_exist()
     {
         $this->loginWithSuperAdmin();
         $userId = -1;
@@ -30,7 +30,7 @@ class GetShowUserTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticatedUserCanNotSeeUserDetail()
+    public function unauthenticated_user_can_not_see_user_detail()
     {
         $userCreated = User::factory()->create();
         $response = $this->get($this->getShowUserRoute($userCreated->id));
