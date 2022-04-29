@@ -14,7 +14,7 @@ use Tests\TestCase;
 class CreateProductTest extends TestCase
 {
     /** @test */
-    public function authenticatedSuperAdminCanCreateNewProductIfDataIsValid()
+    public function authenticated_super_admin_can_create_new_product_if_data_is_valid()
     {
         $this->withExceptionHandling();
         $this->loginWithSuperAdmin();
@@ -23,11 +23,13 @@ class CreateProductTest extends TestCase
         $response->assertJson(fn(AssertableJson $json) =>
         $json->has('data', fn(AssertableJson $json) =>
         $json->where('name', $dataCreated['name'])
-            ->etc())->etc());
+            ->etc())
+            ->etc()
+        );
     }
 
     /** @test */
-    public function authenticatedSuperAdminCanNotCreateNewProductIfNameFieldIsNull()
+    public function authenticated_super_admin_can_not_create_new_product_if_name_field_is_null()
     {
         $this->loginWithSuperAdmin();
         $dataCreate = Product::factory()->make(['name' => null])->toArray();
@@ -36,11 +38,13 @@ class CreateProductTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJson(fn(AssertableJson $json) =>
         $json->has('errors', fn(AssertableJson $json) =>
-        $json->has('name'))->etc());
+        $json->has('name'))
+            ->etc()
+        );
     }
 
     /** @test */
-    public function authenticatedSuperAdminCanNotCreateNewProductIfPriceFieldIsNull()
+    public function authenticated_super_admin_can_not_create_new_product_if_price_field_is_null()
     {
         $this->loginWithSuperAdmin();
         $dataCreate = Product::factory()->make(['price' => null])->toArray();
@@ -49,11 +53,13 @@ class CreateProductTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJson(fn(AssertableJson $json) =>
         $json->has('errors', fn(AssertableJson $json) =>
-        $json->has('price'))->etc());
+        $json->has('price'))
+            ->etc()
+        );
     }
 
     /** @test */
-    public function authenticatedSuperAdminCanNotCreateNewProductIfDescriptionFieldIsNull()
+    public function authenticated_super_admin_can_not_create_new_product_if_description_field_is_null()
     {
         $this->loginWithSuperAdmin();
         $dataCreate = Product::factory()->make(['description' => null])->toArray();
@@ -62,24 +68,28 @@ class CreateProductTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJson(fn(AssertableJson $json) =>
         $json->has('errors', fn(AssertableJson $json) =>
-        $json->has('description'))->etc());
+        $json->has('description'))
+            ->etc()
+        );
     }
 
     /** @test */
-    public function authenticatedUserHavePermissionCanCreateNewProduct()
+    public function authenticated_user_have_permission_can_create_new_product()
     {
         $this->loginUserWithPermission('store-product');
-        $dataCreate = $this->makeFactoryProduct();
+        $dataCreate = $this->_makeFactoryProduct();
         $response = $this->post($this->getStoreProductRoute(), $dataCreate);
 
         $response->assertJson(fn(AssertableJson $json) =>
         $json->has('data', fn(AssertableJson $json) =>
         $json->where('name', $dataCreate['name'])
-            ->etc())->etc());
+            ->etc())
+            ->etc()
+        );
     }
 
     /** @test */
-    public function authenticatedUserHavePermissionCanNotCreateNewProductIfNameNull()
+    public function authenticated_user_have_permission_can_not_create_new_product_if_name_null()
     {
         $this->loginUserWithPermission('store-product');
         $dataCreate = Product::factory()->make(['name' => null])->toArray();
@@ -87,11 +97,13 @@ class CreateProductTest extends TestCase
 
         $response->assertJson(fn(AssertableJson $json) =>
         $json->has('errors', fn(AssertableJson $json) =>
-        $json->has('name'))->etc());
+        $json->has('name'))
+            ->etc()
+        );
     }
 
     /** @test */
-    public function authenticatedUserHavePermissionCanNotCreateNewProductIfPriceNull()
+    public function authenticated_user_have_permission_can_not_create_new_product_if_price_null()
     {
         $this->loginUserWithPermission('store-product');
         $dataCreate = Product::factory()->make(['price' => null])->toArray();
@@ -99,11 +111,13 @@ class CreateProductTest extends TestCase
 
         $response->assertJson(fn(AssertableJson $json) =>
         $json->has('errors', fn(AssertableJson $json) =>
-        $json->has('price'))->etc());
+        $json->has('price'))
+            ->etc()
+        );
     }
 
     /** @test */
-    public function authenticatedUserHavePermissionCanNotCreateNewProductIfDescriptionNull()
+    public function authenticated_user_have_permission_can_not_create_new_product_if_description_null()
     {
         $this->loginUserWithPermission('store-product');
         $dataCreate = Product::factory()->make(['description' => null])->toArray();
@@ -112,11 +126,12 @@ class CreateProductTest extends TestCase
         $response->assertJson(fn(AssertableJson $json) =>
         $json->has('errors', fn(AssertableJson $json) =>
         $json->has('description'))
-            ->etc());
+            ->etc()
+        );
     }
 
     /** @test */
-    public function authenticatedNotAuthorizeUserCanNotCreateNewCate()
+    public function authenticated_not_authorize_user_can_not_create_new_cate()
     {
         $this->loginWithUser();
         $dataCreate = Product::factory()->make()->toArray();
@@ -135,7 +150,7 @@ class CreateProductTest extends TestCase
         return route('products.store');
     }
 
-    public function makeFactoryProduct()
+    public function _makeFactoryProduct()
     {
         return Product::factory()->make()->toArray();
     }
