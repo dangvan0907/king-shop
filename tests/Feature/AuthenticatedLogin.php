@@ -11,14 +11,14 @@ use Tests\TestCase;
 class AuthenticatedLogin extends TestCase
 {
     /** @test */
-    public function userCanViewFormLogin()
+    public function user_can_view_form_login()
     {
         $response = $this->get('/login');
         $response->assertStatus(Response::HTTP_OK);
     }
 
     /** @test */
-    public function userCanLoginIfDataIsValid()
+    public function user_can_login_if_data_is_valid()
     {
         $response = $this->post(route('login'), [
             'email' => 'a@gmail.com',
@@ -29,7 +29,7 @@ class AuthenticatedLogin extends TestCase
     }
 
     /** @test */
-    public function userCanNotLoginIfDataIsIncorrect()
+    public function user_can_not_login_if_data_is_incorrect()
     {
         $response = $this->post(route('login'), [
             'email' => 'adminadadad@gmail.com',
@@ -41,7 +41,7 @@ class AuthenticatedLogin extends TestCase
     }
 
     /** @test */
-    public function userLogout()
+    public function user_logout()
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->post('/logout');
@@ -51,7 +51,7 @@ class AuthenticatedLogin extends TestCase
     }
 
     /** @test */
-    public function userCanNotLoginIfEmailIsNull()
+    public function user_can_not_login_if_email_is_null()
     {
         $response = $this->post(route('login'), [
             'email' => null,
@@ -63,7 +63,7 @@ class AuthenticatedLogin extends TestCase
     }
 
     /** @test */
-    public function userCanNotLoginIfPasswordIsNull()
+    public function user_can_not_login_if_password_is_null()
     {
         $response = $this->post(route('login'), [
             'email' => 'admin@gmail.com',
@@ -75,7 +75,7 @@ class AuthenticatedLogin extends TestCase
     }
 
     /** @test */
-    public function userCanNotLoginIfEmailAndPasswordIsNull()
+    public function user_can_not_login_if_email_and_password_is_null()
     {
         $response = $this->post(route('login'), [
             'email' => null,
@@ -83,6 +83,6 @@ class AuthenticatedLogin extends TestCase
         ]);
 
         $response->assertStatus(Response::HTTP_FOUND);
-        $response->assertSessionHasErrors(['email', 'password']);
+        $response->assertSessionHasErrors(['email','password']);
     }
 }
