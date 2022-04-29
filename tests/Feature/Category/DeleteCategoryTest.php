@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 class DeleteCategoryTest extends TestCase
 {
     /** @test */
-    public function authenticatedAndHasPermissionUserCanDeleteCategory()
+    public function authenticated_and_has_permission_user_can_delete_category()
     {
         $category = Category::factory()->create();
         $this->loginUserWithPermission('delete-category');
@@ -21,7 +21,7 @@ class DeleteCategoryTest extends TestCase
     }
 
     /** @test */
-    public function authenticatedSuperAdminCanDeleteCategory()
+    public function authenticated_super_admin_can_delete_category()
     {
         $category = Category::factory()->create();
         $this->loginWithSuperAdmin();
@@ -31,7 +31,7 @@ class DeleteCategoryTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticatedUserCanNotDeleteCategory()
+    public function unauthenticated_user_can_not_delete_category()
     {
         $category = Category::factory()->create();
         $response = $this->deleteJson($this->getDeleteCategoryRoute($category->id));
@@ -39,7 +39,7 @@ class DeleteCategoryTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticatedSuperAdminCanNotDeleteCategory()
+    public function unauthenticated_super_admin_can_not_delete_category()
     {
         $category = Category::factory()->create();
         $response = $this->deleteJson($this->getDeleteCategoryRoute($category->id));

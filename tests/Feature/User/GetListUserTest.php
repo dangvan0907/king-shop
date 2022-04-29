@@ -11,7 +11,7 @@ use Tests\TestCase;
 class GetListUserTest extends TestCase
 {
     /** @test  */
-    public function authenticatedSuperAdminCanGetAllUser()
+    public function authenticated_super_admin_can_get_all_user()
     {
         $this->loginWithSuperAdmin();
         $user = User::factory()->create();
@@ -23,9 +23,9 @@ class GetListUserTest extends TestCase
     }
 
     /** @test  */
-    public function authenticatedUserHavePermissionCanGetAllUser()
+    public function authenticated_user_have_permission_can_get_all_user()
     {
-        $this->loginUserWithPermission('index-user');
+        $this->loginUserWithPermission('index-user');;
         $user = User::factory()->create();
         $response = $this->get($this->getListUserRoute());
 
@@ -35,7 +35,7 @@ class GetListUserTest extends TestCase
     }
 
     /** @test  */
-    public function unauthenticatedUserCanGetAllUser()
+    public function unauthenticated_user_can_get_all_user()
     {
         $response = $this->get($this->getListUserRoute());
         $response->assertStatus(Response::HTTP_FOUND);

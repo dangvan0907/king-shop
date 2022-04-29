@@ -12,7 +12,7 @@ use Tests\TestCase;
 class DeleteProductTest extends TestCase
 {
     /** @test */
-    public function authenticatedAuthorizeUserCanDeleteProductIfRecordIsExist()
+    public function authenticated_authorize_user_can_delete_product_if_record_is_exist()
     {
         $this->loginWithSuperAdmin();
         $cateCreated = Product::factory()->create()->toArray();
@@ -21,11 +21,12 @@ class DeleteProductTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJson(fn(AssertableJson $json) =>
         $json->has('message')
-            ->etc());
+            ->etc()
+        );
     }
 
     /** @test */
-    public function unauthenticatedUserCanNotDeleteProduct()
+    public function unauthenticated_user_can_not_delete_product()
     {
         $cateCreated = Product::factory()->create()->toArray();
         $response = $this->delete($this->getDestroyProductRoute($cateCreated['id']));
@@ -34,7 +35,7 @@ class DeleteProductTest extends TestCase
     }
 
     /** @test */
-    public function authenticatedNotAuthorizeUserCanNotDeleteProduct()
+    public function authenticated_not_authorize_user_can_not_delete_product()
     {
         $this->loginWithUser();
         $cateCreated = Product::factory()->create()->toArray();
@@ -43,7 +44,7 @@ class DeleteProductTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticatedSuperAdminCanNotDeleteProduct()
+    public function unauthenticated_super_admin_can_not_delete_product()
     {
         $product = Product::factory()->create();
         $response = $this->delete($this->getDestroyProductRoute($product->id));

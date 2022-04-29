@@ -9,17 +9,17 @@ use Tests\TestCase;
 class CreateCategoryTest extends TestCase
 {
     /** @test */
-    public function authenticatedSuperAdminCanCreateCategory()
+    public function authenticated_super_admin_can_create_category()
     {
         $this->loginWithSuperAdmin();
-        $dataCreate = $this->makeFactoryCategory();
+        $dataCreate = $this->_makeFactoryCategory();
         $response = $this->post($this->getStoreCategoryRoute(), $dataCreate);
         $response->assertStatus(Response::HTTP_FOUND);
         $this->assertDatabaseHas('categories', ['name' => $dataCreate]);
     }
 
     /** @test */
-    public function unauthenticatedUserCanNotSeeCreateCategoryForm()
+    public function unauthenticated_user_can_not_see_create_category_form()
     {
         $response = $this->get($this->getCreateCategoryRoute());
         $response->assertStatus(Response::HTTP_FOUND);
@@ -27,7 +27,7 @@ class CreateCategoryTest extends TestCase
     }
 
     /** @test */
-    public function authenticatedUserHavePermissionCanSeeCreateCategoryForm()
+    public function authenticated_user_have_permission_can_see_create_category_form()
     {
         $this->loginUserWithPermission('create-category');
         $response = $this->get($this->getCreateCategoryRoute());
@@ -37,20 +37,18 @@ class CreateCategoryTest extends TestCase
     }
 
     /** @test */
-    public function authenticatedUserCanNewCreateCategory()
+    public function authenticated_user_can_new_create_category()
     {
         $this->loginUserWithPermission('store-category');
-        $dataCreate = $this->makeFactoryCategory();
+        $dataCreate = $this->_makeFactoryCategory();
         $response = $this->post($this->getStoreCategoryRoute(), $dataCreate);
         $response->assertStatus(Response::HTTP_FOUND);
-        $this->assertDatabaseHas('categories', [
-            'name' => $dataCreate['name'],
-            'parent_id' => $dataCreate['parent_id']]);
+        $this->assertDatabaseHas('categories', ['name' => $dataCreate['name'], 'parent_id' => $dataCreate['parent_id']]);
         $response->assertRedirect(route('categories.index'));
     }
 
     /** @test */
-    public function authenticatedUserHavePermissionCanNotNewCreateCategoryIfNameNull()
+    public function authenticated_user_have_permission_can_not_new_create_category_if_name_null()
     {
         $this->loginUserWithPermission('store-category');
         $role = Category::factory()->make([
@@ -62,7 +60,7 @@ class CreateCategoryTest extends TestCase
     }
 
     /** @test */
-    public function authenticatedUserHavePermissionCanSeeTextErrorCreateCategoryIfNameNull()
+    public function authenticated_user_have_permission_can_see_text_error_create_category_if_name_null()
     {
         $this->loginUserWithPermission('store-category');
         $role = Category::factory()->make([
@@ -74,7 +72,7 @@ class CreateCategoryTest extends TestCase
     }
 
     /** @test */
-    public function authenticatedSupperAdminCanNotNewCreateCategoryIfNameNull()
+    public function authenticated_supper_admin_can_not_new_create_category_if_name_null()
     {
         $this->loginWithSuperAdmin();
         $role = Category::factory()->make([
@@ -86,7 +84,7 @@ class CreateCategoryTest extends TestCase
     }
 
     /** @test */
-    public function authenticatedSuperAdminCanSeeTextErrorCreateCategoryIfNameNull()
+    public function authenticated_super_admin_can_see_text_error_create_category_if_name_null()
     {
         $this->loginWithSuperAdmin();
         $role = Category::factory()->make([
@@ -107,7 +105,7 @@ class CreateCategoryTest extends TestCase
         return route('categories.create');
     }
 
-    public function makeFactoryCategory()
+    public function _makeFactoryCategory()
     {
         return Category::factory()->make()->toArray();
     }

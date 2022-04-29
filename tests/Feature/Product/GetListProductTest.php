@@ -12,7 +12,7 @@ use Tests\TestCase;
 class GetListProductTest extends TestCase
 {
     /** @test */
-    public function authenticatedSuperAdminCanGetAllProduct()
+    public function authenticated_super_admin_can_get_all_product()
     {
         $this->loginWithSuperAdmin();
         $response = $this->get($this->getListProductRoute());
@@ -23,9 +23,9 @@ class GetListProductTest extends TestCase
 
 
     /** @test */
-    public function authenticatedUserHavePermissionCanGetAllProduct()
+    public function authenticated_user_have_permission_can_get_all_product()
     {
-        $this->loginUserWithPermission('index-product');
+        $this->loginUserWithPermission('index-product');;
         $response = $this->get($this->getListProductRoute());
 
         $response->assertStatus(Response::HTTP_OK);
@@ -33,7 +33,7 @@ class GetListProductTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticatedUserCanNotGetAllProducts()
+    public function unauthenticated_user_can_not_get_all_products()
     {
         $response = $this->get($this->getListProductRoute());
 
