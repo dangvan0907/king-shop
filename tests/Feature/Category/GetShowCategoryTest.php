@@ -11,7 +11,7 @@ use Tests\TestCase;
 class GetShowCategoryTest extends TestCase
 {
     /** @test */
-    public function authenticatedSuperAdminCanSeeFormEditCategory()
+    public function authenticated_super_admin_can_see_form_edit_category()
     {
         $this->loginWithSuperAdmin();
         $category = Category::factory()->create();
@@ -22,37 +22,33 @@ class GetShowCategoryTest extends TestCase
     }
 
     /** @test */
-    public function authenticatedSuperAdminCanEditCategory()
+    public function authenticated_super_admin_can_edit_category()
     {
         $this->loginWithSuperAdmin();
         $category = Category::factory()->create();
-        $dataUpdate = $this->makeFactoryCategory();
+        $dataUpdate = $this->_makeFactoryCategory();
         $response = $this->put($this->getUpdateCategoryRoute($category->id), $dataUpdate);
 
         $response->assertStatus(Response::HTTP_FOUND);
-        $this->assertDatabaseHas('categories', [
-            'name' => $dataUpdate['name'],
-            'parent_id' => $dataUpdate['parent_id']]);
+        $this->assertDatabaseHas('categories', ['name' => $dataUpdate['name'], 'parent_id' => $dataUpdate['parent_id']]);
         $response->assertRedirect(route('categories.index'));
     }
 
     /** @test */
-    public function authenticatedUserHavePermissionCanEditCategory()
+    public function authenticated_user_have_permission_can_edit_category()
     {
         $this->loginUserWithPermission('update-category');
         $category = Category::factory()->create();
-        $dataUpdate = $this->makeFactoryCategory();
+        $dataUpdate = $this->_makeFactoryCategory();
         $response = $this->put($this->getUpdateCategoryRoute($category->id), $dataUpdate);
 
         $response->assertStatus(Response::HTTP_FOUND);
-        $this->assertDatabaseHas('categories', [
-            'name' => $dataUpdate['name'],
-            'parent_id' => $dataUpdate['parent_id']]);
+        $this->assertDatabaseHas('categories', ['name' => $dataUpdate['name'], 'parent_id' => $dataUpdate['parent_id']]);
         $response->assertRedirect(route('categories.index'));
     }
 
     /** @test */
-    public function authenticatedSuperAdminCanNotUpdateCategoryIfNameNull()
+    public function authenticated_super_admin_can_not_update_category_if_name_null()
     {
         $this->loginWithSuperAdmin();
         $category = Category::factory()->create();
@@ -66,7 +62,7 @@ class GetShowCategoryTest extends TestCase
     }
 
     /** @test */
-    public function authenticatedUserHavePermissionCanNotUpdateCategoryIfNameNull()
+    public function authenticated_user_have_permission_can_not_update_category_if_name_null()
     {
         $this->loginUserWithPermission('update-category');
         $category = Category::factory()->create();
@@ -80,7 +76,7 @@ class GetShowCategoryTest extends TestCase
     }
 
     /** @test */
-    public function authenticatedSuperAdminCanSeeTextErrorUpdateCategoryIfNameNull()
+    public function authenticated_super_admin_can_see_text_error_update_category_if_name_null()
     {
         $this->loginWithSuperAdmin();
         $category = Category::factory()->create();
@@ -88,14 +84,13 @@ class GetShowCategoryTest extends TestCase
             'id' => $category->id,
             'name' => null
         ])->toArray();
-        $response = $this->from($this->getEditCategoryRoute($category->id))->
-        put($this->getUpdateCategoryRoute($category->id), $dataUpdate);
+        $response = $this->from($this->getEditCategoryRoute($category->id))->put($this->getUpdateCategoryRoute($category->id), $dataUpdate);
 
         $response->assertSessionHasErrors('name');
     }
 
     /** @test */
-    public function authenticatedUserHavePermissionCanSeeTextErrorUpdateCategoryIfNameNull()
+    public function authenticated_user_have_permission_can_see_text_error_update_category_if_name_null()
     {
         $this->loginUserWithPermission('update-category');
         $category = Category::factory()->create();
@@ -103,17 +98,16 @@ class GetShowCategoryTest extends TestCase
             'id' => $category->id,
             'name' => null
         ])->toArray();
-        $response = $this->from($this->getEditCategoryRoute($category->id))->
-        put($this->getUpdateCategoryRoute($category->id), $dataUpdate);
+        $response = $this->from($this->getEditCategoryRoute($category->id))->put($this->getUpdateCategoryRoute($category->id), $dataUpdate);
 
         $response->assertSessionHasErrors('name');
     }
 
     /** @test */
-    public function unauthenticatedUserCannotEditCategory()
+    public function unauthenticated_user_cannot_edit_category()
     {
         $category = Category::factory()->create();
-        $dataUpdate = $this->makeFactoryCategory();
+        $dataUpdate = $this->_makeFactoryCategory();
         $response = $this->put($this->getUpdateCategoryRoute($category->id), $dataUpdate);
 
         $response->assertStatus(Response::HTTP_FOUND);
@@ -121,7 +115,7 @@ class GetShowCategoryTest extends TestCase
     }
 
     /** @test */
-    public function unauthenticatedUserCanNotSeeFormEditCategory()
+    public function unauthenticated_user_can_not_see_form_edit_category()
     {
         $category = Category::factory()->create();
         $response = $this->get($this->getEditCategoryRoute($category->id));
@@ -140,7 +134,7 @@ class GetShowCategoryTest extends TestCase
         return route('categories.update', $id);
     }
 
-    public function makeFactoryCategory()
+    public function _makeFactoryCategory()
     {
         return Category::factory()->make()->toArray();
     }

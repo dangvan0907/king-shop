@@ -11,38 +11,29 @@ use Tests\TestCase;
 class AuthRegisterTest extends TestCase
 {
     /** @test */
-    public function userCanViewFormRegister()
+    public function user_can_view_form_login()
     {
-        $response = $this->get('/register');
-
+        $response = $this->get('/login');
         $response->assertStatus(Response::HTTP_OK);
     }
 
     /** @test */
-    public function userCanRegisterIfDataIsValid()
+    public function user_can_login_if_data_is_valid()
     {
-        $user = User::factory()->make();
-        $dataRegister = [
-            'name' => $user->name,
-            'email' => $user->email,
-            'password' => $user->password,
-            'password_confirmation' => $user->password
-        ];
-
-        $response = $this->post('register', $dataRegister);
+        $response = $this->post(route('login'), [
+            'email' => 'a@gmail.com',
+            'password' => '123456789'
+        ]);
         $response->assertStatus(Response::HTTP_FOUND);
         $this->assertAuthenticated();
     }
 
     /** @test */
-    public function userCanNotRegisterIfPasswordAndConfirmPasswordDontMatch()
+    public function user_can_not_login_if_data_is_incorrect()
     {
-        $user = User::factory()->make();
-        $response = $this->post('register', [
-            'name' => $user->name,
-            'email' => $user->email,
-            'password' => $user->password,
-            'password_confirmation' => '1234521'
+        $response = $this->post(route('login'), [
+            'email' => 'adminadadad@gmail.com',
+            'password' => 'abc123wq43'
         ]);
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertSessionHasErrors();
@@ -50,38 +41,48 @@ class AuthRegisterTest extends TestCase
     }
 
     /** @test */
-    public function userCanNotRegisterIfPasswordIsNull()
+    public function user_logout()
     {
-        $dataRegister = User::factory()->make([
-            'password' => null
-        ])->toArray();
-        $response = $this->post('register', $dataRegister);
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->post('/logout');
 
         $response->assertStatus(Response::HTTP_FOUND);
-        $response->assertSessionHasErrors(['password']);
+        $this->assertGuest();
     }
 
     /** @test */
-    public function userCanNotRegisterIfEmailIsNull()
+    public function user_can_not_login_if_email_is_null()
     {
-        $dataRegister = User::factory()->make([
-            'email' => null
-        ])->toArray();
-        $response = $this->post('register', $dataRegister);
+        $response = $this->post(route('login'), [
+            'email' => null,
+            'password' => '123456789'
+        ]);
 
         $response->assertStatus(Response::HTTP_FOUND);
         $response->assertSessionHasErrors(['email']);
     }
 
     /** @test */
-    public function userCanNotRegisterIfNameIsNull()
+    public function user_can_not_login_if_password_is_null()
     {
-        $dataRegister = User::factory()->make([
-            'name' => null
-        ])->toArray();
-        $response = $this->post('register', $dataRegister);
+        $response = $this->post(route('login'), [
+            'email' => 'admin@gmail.com',
+            'password' => null
+        ]);
 
         $response->assertStatus(Response::HTTP_FOUND);
-        $response->assertSessionHasErrors(['name']);
+        $response->assertSessionHasErrors(['password']);
+    }
+
+    /** @test */
+    public function user_can_not_login_if_email_and_password_is_null()
+    {
+        $response = $this->post(route('login'), [
+            'email' => null,
+            'password' => null
+        ]);
+
+        $response->assertStatus(Response::HTTP_FOUND);
+        $response->assertSessionHasErrors(['email','password']);
     }
 }
