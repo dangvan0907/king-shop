@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -185,5 +186,42 @@ Route::prefix('categories')
 
     });
 
+Route::prefix('carts')
+    ->middleware('auth')
+    ->name('carts.')
+    ->group(function () {
+        Route::get('/',
+            [\App\Http\Controllers\RoleController::class, 'index'])
+            ->name('index')
+            ->middleware('check.permission:index-role');
+        Route::get('/{role}/show',
+            [\App\Http\Controllers\RoleController::class, 'show'])
+            ->name('show')
+            ->middleware('check.permission:show-role');
+
+        Route::get('/{role}/edit',
+            [\App\Http\Controllers\RoleController::class, 'edit'])
+            ->name('edit')
+            ->middleware('check.permission:edit-role');
+        Route::put('/{role}/update',
+            [\App\Http\Controllers\RoleController::class, 'update'])
+            ->name('update')
+            ->middleware('check.permission:update-role');
+
+        Route::get('/create',
+            [\App\Http\Controllers\RoleController::class, 'create'])
+            ->name('create')
+            ->middleware('check.permission:create-role');
+        Route::post('/',
+            [\App\Http\Controllers\RoleController::class, 'store'])
+            ->name('store')
+            ->middleware('check.permission:store-role');
+
+        Route::delete('/{role}',
+            [\App\Http\Controllers\RoleController::class, 'destroy'])
+            ->name('destroy')
+            ->middleware('check.permission:delete-role');
+
+    });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
