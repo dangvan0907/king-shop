@@ -127,6 +127,34 @@ class PermissionSeeder extends Seeder
                 'name' => 'update-product',
                 'display_name' => 'Update Product',
             ],
+            [
+                'name' => 'index-cart',
+                'display_name' => 'Index cart',
+            ],
+            [
+                'name' => 'create-cart',
+                'display_name' => 'Create cart',
+            ],
+            [
+                'name' => 'edit-cart',
+                'display_name' => 'Edit cart',
+            ],
+            [
+                'name' => 'delete-cart',
+                'display_name' => 'Delete cart',
+            ],
+            [
+                'name' => 'show-cart',
+                'display_name' => 'Show cart',
+            ],
+            [
+                'name' => 'store-cart',
+                'display_name' => 'Store cart',
+            ],
+            [
+                'name' => 'update-cart',
+                'display_name' => 'Update cart',
+            ],
         ]);
 
     }

@@ -2,69 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RoleCreateRequest;
-use App\Http\Requests\RoleUpdateRequest;
-use App\Models\Role;
-use App\Services\RoleService;
-use Illuminate\Http\Request;
+use App\Services\CartService;
 
 class CartController extends Controller
 {
-    protected $roleService;
+    protected CartService $cartService;
 
-    public function __construct(RoleService $roleService)
+    public function __construct(CartService $cartService)
     {
-        $this->roleService = $roleService;
+        $this->cartService = $cartService;
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        $roles = $this->roleService->search($request);
-        return view('admin.roles.index', compact('roles'));
+        $carts = $this->cartService->getList();
+        return view('admin.cart.index', compact('carts'));
     }
 
     public function show($id)
     {
-        $role = $this->getById($id);
-        return view('admin.roles.show', compact('role'));
-    }
-
-    public function create()
-    {
-        return view('admin.roles.create');
-    }
-
-    public function store(RoleCreateRequest $request)
-    {
-        $this->roleService->create($request);
-        return redirect(route('roles.index'))->with('message', 'Create success!');
-    }
-
-    public function edit($id)
-    {
-        $role = $this->getById($id);
-        return view('admin.roles.edit', compact('role'));
-    }
-
-    public function update(RoleUpdateRequest $request, $id)
-    {
-        $role = $this->roleService->update($request, $id);
-        $role->update($request->all());
-        return redirect(route('roles.index'))->with('message', 'Update success!');
-    }
-
-    public function destroy($id)
-    {
-        $this->roleService->destroy($id);
-        return redirect(route('roles.index'))->with('message', 'Delete success!');
-    }
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function getById($id)
-    {
-        return $this->roleService->findById($id);
+        $cart = $this->cartService->findById($id);
+        return view('admin.cart.show', compact('cart'));
     }
 }

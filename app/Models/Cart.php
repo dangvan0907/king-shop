@@ -18,4 +18,14 @@ class Cart extends Model
         'shipping',
         'total',
     ];
+
+    public function userLogin()
+    {
+        return $this->belongsTo(UserLogin::class,'user_login_id','id');
+    }
+
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
 }
