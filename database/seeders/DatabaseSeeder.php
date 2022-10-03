@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
+            CartSeeder::class,
+            CartItemSeeder::class
         ]);
         $users = User::all();
         $roles = Role::all();

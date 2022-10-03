@@ -64,6 +64,18 @@
 
                 </li>
                 @endhasPermission
+
+                @hasPermission('index-carts')
+                <li class="nav-item">
+                    <a href="{{route('carts.index')}}" class="nav-link {{Route::is('carts.*') || Route::is('carts.*')  ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>
+                            Carts
+                        </p>
+                    </a>
+
+                </li>
+                @endhasPermission
             </ul>
         </nav>
     </div>

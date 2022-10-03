@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Cart;
 use App\Models\Role;
 
 class CartRepository extends BaseRepository
@@ -9,13 +10,12 @@ class CartRepository extends BaseRepository
 
     public function model()
     {
-        return Role::class;
+        return Cart::class;
     }
 
-    public function search($dataSearch)
+    public function getList()
     {
-        $display_name = $dataSearch['display_name'];
-        return $this->model->withName($display_name)->latest('id')->paginate(5);
+        return $this->model->latest('id')->paginate(5);
     }
 
     public function getRoleWithOutSuperAdmin()
