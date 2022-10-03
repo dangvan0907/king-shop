@@ -32,16 +32,9 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
-//        Role::where('name', '=', 'supper-admin')->first();
         $admin = Role::where('name', '=', 'admin')->first();
         $user = Role::where('name', '=', 'user')->first();
-//        $supper_admin->permissions()->attach(
-//            Permission::whereNotIn  (
-//                'name',
-//                [])
-//                ->pluck('id')
-//                ->toArray()
-//        );
+
         $admin->permissions()->attach(
             Permission::whereNotIn(
                 'name',
